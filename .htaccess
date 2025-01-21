@@ -1,0 +1,34 @@
+<IfModule mod_rewrite.c> 
+    Options +FollowSymLinks -MultiViews
+
+
+    RewriteEngine On 
+    RewriteBase /
+
+    #removing trailing slash
+    RewriteCond %{REQUEST_FILENAME} !-d     
+    RewriteRule ^(.*)/$ $1 [R=301,L]
+
+    #www to non
+    RewriteCond %{HTTP_HOST} ^www\.(([a-z0-9_]+\.)?domain\.com)$ [NC]
+    RewriteRule .? http://%1%{REQUEST_URI} [R=301,L]
+
+    #html
+    RewriteCond %{REQUEST_FILENAME} !-f 
+    RewriteCond %{REQUEST_FILENAME} !-d 
+    RewriteRule ^([^\.]+)$ $1.html [NC,L]
+
+    #index redirect 
+    RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.html\ HTTP/ 
+    RewriteRule ^index\.html$ https://sofidevo.github.io/alura-geek/ [R=301,L]
+    RewriteCond %{THE_REQUEST} \.html 
+    RewriteRule ^(.*)\.html$ /$1 [R=301,L] 
+    </IfModule> 
+
+    <IfModule mod_rewrite.c>
+    RewriteEngine on
+    RewriteBase /blog/
+    # Force Trailing Slash for wordpress
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.*)[^/]{1}$ %{REQUEST_URI}/ [L,R=301]
+    </IfModule> 
